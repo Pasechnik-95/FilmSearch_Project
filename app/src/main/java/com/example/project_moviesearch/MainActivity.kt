@@ -12,28 +12,40 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initMenuButtons()
-    }
 
+        binding.topAppBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.settings -> {
+                    Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+        binding.bottomNavigation.setOnItemSelectedListener {
+
+            when (it.itemId) {
+                R.id.account -> {
+                    Toast.makeText(this, "Аккаунт", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                R.id.favourites -> {
+                    Toast.makeText(this, "Избранное", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                R.id.collections -> {
+                    Toast.makeText(this, "Подборки", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
 }
 
-private fun initMenuButtons() {
-    binding.menuButton.setOnClickListener {
-        Toast.makeText(it.context, "Меню", Toast.LENGTH_SHORT).show()
-    }
-    binding.accountButton.setOnClickListener {
-        Toast.makeText(it.context, "Аккаунт", Toast.LENGTH_SHORT).show()
-    }
-    binding.collectionsButton.setOnClickListener {
-        Toast.makeText(it.context, "Коллекция", Toast.LENGTH_SHORT).show()
-    }
-    binding.favouritesButton.setOnClickListener {
-        Toast.makeText(it.context, "Избранное", Toast.LENGTH_SHORT).show()
-    }
-    binding.watchLaterButton.setOnClickListener {
-        Toast.makeText(it.context, "Посмотреть позже", Toast.LENGTH_SHORT).show()
-    }
-
-
-}
 
