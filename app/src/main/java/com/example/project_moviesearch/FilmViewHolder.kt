@@ -4,14 +4,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.project_moviesearch.databinding.FilmItemBinding
 
 
-class FilmViewHolder(private var binding: FilmItemBinding) : RecyclerView.ViewHolder(binding.root) {
+class FilmViewHolder(private var filmItemBinding: FilmItemBinding) : RecyclerView.ViewHolder(filmItemBinding.root) {
 
     fun bind(film: Film) {
         //Устанавливаем заголовок
-        binding.title.text = film.title
+        filmItemBinding.title.text = film.title
         //Устанавливаем постер
-        binding.poster.setImageResource(film.poster)
+        filmItemBinding.poster.setImageResource(film.poster)
         //Устанавливаем описание
-        binding.description.text = film.description
+        filmItemBinding.description.text = film.description
     }
 }
