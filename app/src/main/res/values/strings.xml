@@ -6,4 +6,5 @@
     <string name="account">Аккаунт</string>
     <string name="settings">Настройки</string>
     <string name="collections">Подборки</string>
+    <string name="FAB_desc">TODO</string>
 </resources>
