@@ -36,7 +36,11 @@ class MainActivity : AppCompatActivity() {
 
             when (it.itemId) {
                 R.id.account -> {
-                    Toast.makeText(this, "Аккаунт", Toast.LENGTH_SHORT).show()
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragment_placeholder, FavoritesFragment())
+                        .addToBackStack(null)
+                        .commit()
                     true
                 }
 
