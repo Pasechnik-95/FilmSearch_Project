@@ -36,16 +36,17 @@ class MainActivity : AppCompatActivity() {
 
             when (it.itemId) {
                 R.id.account -> {
+                    Toast.makeText(this, "Аккаунт", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                R.id.favourites -> {
+
                     supportFragmentManager
                         .beginTransaction()
                         .replace(R.id.fragment_placeholder, FavoritesFragment())
                         .addToBackStack(null)
                         .commit()
-                    true
-                }
-
-                R.id.favourites -> {
-                    Toast.makeText(this, "Избранное", Toast.LENGTH_SHORT).show()
                     true
                 }
 
