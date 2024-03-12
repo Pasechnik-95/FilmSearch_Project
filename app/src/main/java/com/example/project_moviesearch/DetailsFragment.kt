@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import com.example.project_moviesearch.databinding.FragmentDetailsBinding
 
 
-
 class DetailsFragment() : Fragment() {
     lateinit var binding: FragmentDetailsBinding
     private lateinit var film: Film
@@ -65,7 +64,6 @@ class DetailsFragment() : Fragment() {
         binding.detailsPoster.setImageResource(film.poster)
         //Устанавливаем описание
         binding.detailsDescription.text = film.description
-
 
 
     }

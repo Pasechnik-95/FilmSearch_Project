@@ -30,7 +30,7 @@ class FavoritesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFavoritesBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -42,11 +42,12 @@ class FavoritesFragment : Fragment() {
 
         binding.favoritesRecycler
             .apply {
-                filmsAdapter = FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener{
-                    override fun click(film: Film) {
-                        (requireActivity() as MainActivity).launchDetailsFragment(film)
-                    }
-                })
+                filmsAdapter =
+                    FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
+                        override fun click(film: Film) {
+                            (requireActivity() as MainActivity).launchDetailsFragment(film)
+                        }
+                    })
                 //Присваиваем адаптер
                 adapter = filmsAdapter
                 //Присвои layoutmanager

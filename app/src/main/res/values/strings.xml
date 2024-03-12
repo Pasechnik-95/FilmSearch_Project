@@ -1,12 +1,9 @@
 <resources>
     <string name="app_name">MovieSearch</string>
-    <string name="poster_owner">Постеры предоставлены: https://www.kinopoisk.ru/</string>
-    <string name="menu">Меню</string>
     <string name="favourites">Избранное</string>
     <string name="account">Аккаунт</string>
     <string name="settings">Настройки</string>
     <string name="collections">Подборки</string>
-    <string name="FAB_desc">TODO</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="details_fab_share_desc">Поделиться</string>
+    <string name="details_fab_favourites_desc">Добавить в избранное</string>
 </resources>
