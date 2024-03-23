@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="main_menu_text">#450505</color>
     <color name="colorAccent">@color/colorPrimaryDark</color>
     <color name="colorPrimaryDark">#CB34294E</color>
     <color name="colorPrimary">#E9CAB470</color>
