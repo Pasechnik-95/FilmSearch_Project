@@ -40,23 +40,22 @@ class FavoritesFragment : Fragment() {
 
         val favoritesList: List<Film> = emptyList()
 
-        binding.favoritesRecycler
-            .apply {
-                filmsAdapter =
-                    FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
-                        override fun click(film: Film) {
-                            (requireActivity() as MainActivity).launchDetailsFragment(film)
-                        }
-                    })
-                //Присваиваем адаптер
-                adapter = filmsAdapter
-                //Присвои layoutmanager
-                layoutManager = LinearLayoutManager(requireContext())
-                //Применяем декоратор для отступов
-                val decorator = TopSpacingItemDecoration(8)
-                addItemDecoration(decorator)
-            }
-        //Кладем нашу БД в RV
+        binding.favoritesRecycler.apply {
+            filmsAdapter =
+                FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
+                    override fun click(film: Film) {
+                        (requireActivity() as MainActivity).launchDetailsFragment(film)
+                    }
+                })
+            //Присваиваем адаптер
+            adapter = filmsAdapter
+            //Присвои layoutmanager
+            layoutManager = LinearLayoutManager(requireContext())
+            //Применяем декоратор для отступов
+            val decorator = TopSpacingItemDecoration(8)
+            addItemDecoration(decorator)
+        }
+
         filmsAdapter.addItems(filmsDataBase)
     }
 

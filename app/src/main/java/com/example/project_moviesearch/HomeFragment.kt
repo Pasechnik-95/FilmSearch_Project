@@ -2,6 +2,11 @@ package com.example.project_moviesearch
 
 import TopSpacingItemDecoration
 import android.os.Bundle
+import android.transition.Scene
+import android.transition.Slide
+import android.transition.TransitionManager
+import android.transition.TransitionSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +14,10 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.project_moviesearch.databinding.FragmentHomeBinding
+import com.example.project_moviesearch.databinding.MergeHomeScreenContentBinding
 import java.util.Locale
 
-val filmsDataBase = listOf(
+val filmsDataBase = mutableListOf(
     Film(
         "Зеленая миля",
         R.drawable.the_green_mile,
@@ -61,45 +67,53 @@ val filmsDataBase = listOf(
 
 class HomeFragment : Fragment() {
     private lateinit var filmsAdapter: FilmListRecyclerAdapter
-    private lateinit var binding: FragmentHomeBinding
+    private var _bindingHome: FragmentHomeBinding? = null
+    private val bindingHome: FragmentHomeBinding get() = _bindingHome!!
+    private lateinit var  bindingMerge: MergeHomeScreenContentBinding
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        _bindingHome = FragmentHomeBinding.inflate(inflater, container, false)
+        return bindingHome.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //Находим наш RV
-        binding.mainRecycler.apply {
 
-            //Инициализируем наш адаптер
-            filmsAdapter =
-                FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
-                    override fun click(film: Film) {
-                        (requireActivity() as MainActivity).launchDetailsFragment(film)
-                    }
-                })
-            //Присваиваем адаптер
-            adapter = filmsAdapter
-            //Присвои layoutmanager
-            layoutManager = LinearLayoutManager(requireContext())
-            //Применяем декоратор для отступов
-            val decorator = TopSpacingItemDecoration(8)
-            addItemDecoration(decorator)
+        bindingMerge = MergeHomeScreenContentBinding.inflate(layoutInflater, bindingHome.homeFragmentRoot, false)
+
+        val scene = Scene(
+            bindingHome.homeFragmentRoot,
+            bindingMerge.root
+        )
+        val searchSlide = Slide(Gravity.TOP).addTarget(R.id.search_view)
+        //Создаем анимацию выезда RV снизу
+        val recyclerSlide = Slide(Gravity.BOTTOM).addTarget(R.id.main_recycler)
+        //Создаем экземпляр TransitionSet, который объединит все наши анимации
+        val customTransition = TransitionSet().apply {
+            //Устанавливаем время, за которое будет проходить анимация
+            duration = 500
+            //Добавляем сами анимации
+            addTransition(recyclerSlide)
+            addTransition(searchSlide)
         }
-        //Кладем нашу БД в RV
+        //Также запускаем через TransitionManager, но вторым параметром передаем нашу кастомную анимацию
+        TransitionManager.go(scene, customTransition)
+
+        initRecyclerView()
         filmsAdapter.addItems(filmsDataBase)
 
-        binding.searchView.setOnClickListener {
-            binding.searchView.isIconified = false
+        //Поиск по нажатию на все поле
+        bindingMerge.searchView.setOnClickListener {
+            bindingMerge.searchView.isIconified = false
         }
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        //Подключение слушателя изменений текста в поле поиска
+        bindingMerge.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             //Этот метод отрабатывает при нажатии кнопки "поиск" на софт клавиатуре
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
@@ -112,7 +126,7 @@ class HomeFragment : Fragment() {
                     filmsAdapter.addItems(filmsDataBase)
                     return true
                 }
-                //Фильтруем список на поискк подходящих сочетаний
+                //Фильтруем список на поиск подходящих сочетаний
                 val result = filmsDataBase.filter {
                     //Чтобы все работало правильно, нужно и запрос, и имя фильма приводить к нижнему регистру
                     it.title.lowercase(Locale.getDefault())
@@ -123,5 +137,32 @@ class HomeFragment : Fragment() {
                 return true
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _bindingHome = null
+    }
+
+    private fun initRecyclerView() {
+
+        bindingMerge.mainRecycler.apply {
+            //Инициализируем наш адаптер
+            filmsAdapter =
+                FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
+                    override fun click(film: Film) {
+                        (requireActivity() as MainActivity).launchDetailsFragment(film)
+                    }
+                })
+            layoutManager = LinearLayoutManager(requireContext())
+            //Декоратор для отступов между элементами
+            val decorator = TopSpacingItemDecoration(8)
+            addItemDecoration(decorator)
+            //Присваиваем адаптер
+            adapter = filmsAdapter
+
+        }
+
+
     }
 }

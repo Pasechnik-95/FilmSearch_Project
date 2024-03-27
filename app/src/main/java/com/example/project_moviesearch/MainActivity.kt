@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.favourites -> {
-
                     supportFragmentManager
                         .beginTransaction()
                         .replace(R.id.fragment_placeholder, FavoritesFragment())
