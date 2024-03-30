@@ -6,4 +6,6 @@
     <string name="collections">Подборки</string>
     <string name="details_fab_share_desc">Поделиться</string>
     <string name="details_fab_favourites_desc">Добавить в избранное</string>
+    <string name="watch_later">Смотреть позже</string>
+    <string name="home">Главная</string>
 </resources>

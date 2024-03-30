@@ -5,4 +5,5 @@
     <color name="colorAccent">@color/colorPrimaryDark</color>
     <color name="colorPrimaryDark">#CB34294E</color>
     <color name="colorPrimary">#E9CAB470</color>
+    <color name="purple">#9C27B0</color>
 </resources>

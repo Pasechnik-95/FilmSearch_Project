@@ -1,20 +1,19 @@
-package com.example.project_moviesearch
+package com.example.project_moviesearch.fragments
 
+import AnimationHelper
 import TopSpacingItemDecoration
 import android.os.Bundle
-import android.transition.Scene
-import android.transition.Slide
-import android.transition.TransitionManager
-import android.transition.TransitionSet
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.project_moviesearch.Film
+import com.example.project_moviesearch.FilmListRecyclerAdapter
+import com.example.project_moviesearch.MainActivity
+import com.example.project_moviesearch.R
 import com.example.project_moviesearch.databinding.FragmentHomeBinding
-import com.example.project_moviesearch.databinding.MergeHomeScreenContentBinding
 import java.util.Locale
 
 val filmsDataBase = mutableListOf(
@@ -67,53 +66,33 @@ val filmsDataBase = mutableListOf(
 
 class HomeFragment : Fragment() {
     private lateinit var filmsAdapter: FilmListRecyclerAdapter
-    private var _bindingHome: FragmentHomeBinding? = null
-    private val bindingHome: FragmentHomeBinding get() = _bindingHome!!
-    private lateinit var  bindingMerge: MergeHomeScreenContentBinding
-
+    private var _binding: FragmentHomeBinding? = null
+    private val binding: FragmentHomeBinding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _bindingHome = FragmentHomeBinding.inflate(inflater, container, false)
-        return bindingHome.root
+        _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bindingMerge = MergeHomeScreenContentBinding.inflate(layoutInflater, bindingHome.homeFragmentRoot, false)
-
-        val scene = Scene(
-            bindingHome.homeFragmentRoot,
-            bindingMerge.root
-        )
-        val searchSlide = Slide(Gravity.TOP).addTarget(R.id.search_view)
-        //Создаем анимацию выезда RV снизу
-        val recyclerSlide = Slide(Gravity.BOTTOM).addTarget(R.id.main_recycler)
-        //Создаем экземпляр TransitionSet, который объединит все наши анимации
-        val customTransition = TransitionSet().apply {
-            //Устанавливаем время, за которое будет проходить анимация
-            duration = 500
-            //Добавляем сами анимации
-            addTransition(recyclerSlide)
-            addTransition(searchSlide)
-        }
-        //Также запускаем через TransitionManager, но вторым параметром передаем нашу кастомную анимацию
-        TransitionManager.go(scene, customTransition)
+        AnimationHelper.performFragmentCircularRevealAnimation(binding.homeFragmentRoot, requireActivity(), 1)
 
         initRecyclerView()
         filmsAdapter.addItems(filmsDataBase)
 
         //Поиск по нажатию на все поле
-        bindingMerge.searchView.setOnClickListener {
-            bindingMerge.searchView.isIconified = false
+        binding.searchView.setOnClickListener {
+            binding.searchView.isIconified = false
         }
 
         //Подключение слушателя изменений текста в поле поиска
-        bindingMerge.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             //Этот метод отрабатывает при нажатии кнопки "поиск" на софт клавиатуре
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
@@ -141,12 +120,12 @@ class HomeFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        _bindingHome = null
+        _binding = null
     }
 
     private fun initRecyclerView() {
 
-        bindingMerge.mainRecycler.apply {
+        binding.mainRecycler.apply {
             //Инициализируем наш адаптер
             filmsAdapter =
                 FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
