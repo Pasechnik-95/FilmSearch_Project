@@ -1,5 +1,6 @@
-package com.example.project_moviesearch
+package com.example.project_moviesearch.fragments
 
+import AnimationHelper
 import TopSpacingItemDecoration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +9,14 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.project_moviesearch.Film
+import com.example.project_moviesearch.FilmListRecyclerAdapter
+import com.example.project_moviesearch.MainActivity
+import com.example.project_moviesearch.R
 import com.example.project_moviesearch.databinding.FragmentHomeBinding
 import java.util.Locale
 
-val filmsDataBase = listOf(
+val filmsDataBase = mutableListOf(
     Film(
         "Зеленая миля",
         R.drawable.the_green_mile,
@@ -61,44 +66,32 @@ val filmsDataBase = listOf(
 
 class HomeFragment : Fragment() {
     private lateinit var filmsAdapter: FilmListRecyclerAdapter
-    private lateinit var binding: FragmentHomeBinding
-
+    private var _binding: FragmentHomeBinding? = null
+    private val binding: FragmentHomeBinding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //Находим наш RV
-        binding.mainRecycler.apply {
 
-            //Инициализируем наш адаптер
-            filmsAdapter =
-                FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
-                    override fun click(film: Film) {
-                        (requireActivity() as MainActivity).launchDetailsFragment(film)
-                    }
-                })
-            //Присваиваем адаптер
-            adapter = filmsAdapter
-            //Присвои layoutmanager
-            layoutManager = LinearLayoutManager(requireContext())
-            //Применяем декоратор для отступов
-            val decorator = TopSpacingItemDecoration(8)
-            addItemDecoration(decorator)
-        }
-        //Кладем нашу БД в RV
+        AnimationHelper.performFragmentCircularRevealAnimation(binding.homeFragmentRoot, requireActivity(), 1)
+
+        initRecyclerView()
         filmsAdapter.addItems(filmsDataBase)
 
+        //Поиск по нажатию на все поле
         binding.searchView.setOnClickListener {
             binding.searchView.isIconified = false
         }
 
+        //Подключение слушателя изменений текста в поле поиска
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             //Этот метод отрабатывает при нажатии кнопки "поиск" на софт клавиатуре
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -112,7 +105,7 @@ class HomeFragment : Fragment() {
                     filmsAdapter.addItems(filmsDataBase)
                     return true
                 }
-                //Фильтруем список на поискк подходящих сочетаний
+                //Фильтруем список на поиск подходящих сочетаний
                 val result = filmsDataBase.filter {
                     //Чтобы все работало правильно, нужно и запрос, и имя фильма приводить к нижнему регистру
                     it.title.lowercase(Locale.getDefault())
@@ -123,5 +116,32 @@ class HomeFragment : Fragment() {
                 return true
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    private fun initRecyclerView() {
+
+        binding.mainRecycler.apply {
+            //Инициализируем наш адаптер
+            filmsAdapter =
+                FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
+                    override fun click(film: Film) {
+                        (requireActivity() as MainActivity).launchDetailsFragment(film)
+                    }
+                })
+            layoutManager = LinearLayoutManager(requireContext())
+            //Декоратор для отступов между элементами
+            val decorator = TopSpacingItemDecoration(8)
+            addItemDecoration(decorator)
+            //Присваиваем адаптер
+            adapter = filmsAdapter
+
+        }
+
+
     }
 }

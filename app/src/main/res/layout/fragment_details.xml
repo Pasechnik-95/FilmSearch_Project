@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_details"
     android:fitsSystemWindows="false"
-    tools:context=".DetailsFragment">
+    tools:context=".fragments.DetailsFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -56,7 +57,7 @@
         android:contentDescription="@string/details_fab_share_desc" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/details_fab_favorites"
+        android:id="@+id/details_fab_favourites"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
