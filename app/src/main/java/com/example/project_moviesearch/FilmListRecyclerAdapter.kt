@@ -3,7 +3,7 @@ package com.example.project_moviesearch
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.project_moviesearch.databinding.FilmItemBinding
+import com.example.project_moviesearch.databinding.ItemFilmBinding
 
 class FilmListRecyclerAdapter(private val clickListener: OnItemClickListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -16,7 +16,7 @@ class FilmListRecyclerAdapter(private val clickListener: OnItemClickListener) :
     //В этом методе мы привязываем наш ViewHolder и передаем туда "надутую" верстку нашего фильма
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return FilmViewHolder(
-            FilmItemBinding.inflate(
+            ItemFilmBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false

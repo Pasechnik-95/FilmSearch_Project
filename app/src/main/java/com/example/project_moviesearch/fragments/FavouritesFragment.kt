@@ -11,15 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.project_moviesearch.Film
 import com.example.project_moviesearch.FilmListRecyclerAdapter
 import com.example.project_moviesearch.MainActivity
-import com.example.project_moviesearch.R
 import com.example.project_moviesearch.databinding.FragmentFavouritesBinding
 
 val favoritesList: List<Film> = mutableListOf(
-    Film(
-        "Зеленая миля",
-        R.drawable.the_green_mile,
-        "Пол Эджкомб — начальник блока смертников в тюрьме «Холодная гора», каждый из узников которого однажды проходит «зеленую милю» по пути к месту казни. Пол повидал много заключённых и надзирателей за время работы. Однако гигант Джон Коффи, обвинённый в страшном преступлении, стал одним из самых необычных обитателей блока."
-    )
+    filmsDataBase[1],
+    filmsDataBase[3],
+    filmsDataBase[5],
 )
 
 class FavouritesFragment : Fragment() {

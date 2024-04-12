@@ -14,7 +14,7 @@
         android:id="@+id/search_View"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="16dp"
         android:background="@drawable/background_search_view"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,6 +27,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_View"
-        tools:listitem="@layout/film_item" />
+        tools:listitem="@layout/item_film" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
